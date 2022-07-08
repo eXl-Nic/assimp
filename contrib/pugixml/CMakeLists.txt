@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(pugixml)
 
-option(BUILD_SHARED_LIBS "Build shared instead of static library" OFF)
+option(ASSIMP_BUILD_SHARED_LIBS "Build shared instead of static library" OFF)
 option(BUILD_TESTS "Build tests" OFF)
 option(BUILD_PKGCONFIG "Build in PKGCONFIG mode" OFF)
 
@@ -35,15 +35,15 @@ if(DEFINED BUILD_DEFINES)
 		add_definitions("-D" ${DEFINE})
 	endforeach()
 endif()
-#message(pugixml"   "${BUILD_SHARED_LIBS})
-#if(BUILD_SHARED_LIBS)
+#message(pugixml"   "${ASSIMP_BUILD_SHARED_LIBS})
+#if(ASSIMP_BUILD_SHARED_LIBS)
 #	add_library(pugixml SHARED ${HEADERS} ${SOURCES})
 #else()
 	add_library(pugixml STATIC ${HEADERS} ${SOURCES})
 #endif()
 
 # Export symbols for shared library builds
-if(BUILD_SHARED_LIBS AND MSVC)
+if(ASSIMP_BUILD_SHARED_LIBS AND MSVC)
 	target_compile_definitions(pugixml PRIVATE "PUGIXML_API=__declspec(dllexport)")
 endif()
 

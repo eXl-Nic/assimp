@@ -1006,7 +1006,7 @@ else()
     # Windows users of the draco build can have a DLL and an import library, or
     # they can have a static library; they cannot have both from a single
     # configuration of the build.
-    if(BUILD_SHARED_LIBS)
+    if(ASSIMP_BUILD_SHARED_LIBS)
       set(draco_lib_type SHARED)
     else()
       set(draco_lib_type STATIC)
@@ -1031,7 +1031,7 @@ else()
       OBJLIB_DEPS ${draco_object_library_deps}
       LIB_DEPS ${draco_lib_deps})
 
-    if(BUILD_SHARED_LIBS)
+    if(ASSIMP_BUILD_SHARED_LIBS)
       draco_add_library(
         NAME draco_shared
         SOURCES "${draco_src_root}/core/draco_version.h"

@@ -150,7 +150,7 @@ SET( Core_SRCS
   Common/Assimp.cpp
 )
 
-IF(MSVC OR (MINGW AND BUILD_SHARED_LIBS))
+IF(MSVC OR (MINGW AND ASSIMP_BUILD_SHARED_LIBS))
   list(APPEND Core_SRCS "res/assimp.rc")
 ENDIF()
 
@@ -1399,7 +1399,7 @@ ADD_LIBRARY( assimp ${assimp_src} )
 ADD_LIBRARY(assimp::assimp ALIAS assimp)
 
 # Add or remove dllexport tags depending on the library type.
-IF (BUILD_SHARED_LIBS)
+IF (ASSIMP_BUILD_SHARED_LIBS)
   TARGET_COMPILE_DEFINITIONS(assimp PRIVATE ASSIMP_BUILD_DLL_EXPORT)
 ELSE ()
   TARGET_COMPILE_DEFINITIONS(assimp PRIVATE OPENDDL_STATIC_LIBARY P2T_STATIC_EXPORTS)
@@ -1561,7 +1561,7 @@ if (MINGW)
   SET_TARGET_PROPERTIES( assimp PROPERTIES
     ARCHIVE_OUTPUT_NAME assimp
   )
-  if (NOT BUILD_SHARED_LIBS)
+  if (NOT ASSIMP_BUILD_SHARED_LIBS)
     TARGET_LINK_LIBRARIES ( assimp -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lwinpthread ) # winpthread is for libminizip.
   endif ()
 endif()
@@ -1639,7 +1639,7 @@ ENDIF()
 if(MSVC AND ASSIMP_INSTALL_PDB)
   # When only the static library is built, these properties must
   # be set to ensure the static lib .pdb is staged for installation.
-  IF(NOT BUILD_SHARED_LIBS)
+  IF(NOT ASSIMP_BUILD_SHARED_LIBS)
     SET_TARGET_PROPERTIES( assimp PROPERTIES
       COMPILE_PDB_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       COMPILE_PDB_NAME assimp${LIBRARY_SUFFIX}

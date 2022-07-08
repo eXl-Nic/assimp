@@ -107,7 +107,7 @@ PROJECT(Assimp VERSION 5.4.3)
 
 # All supported options ###############################################
 
-OPTION( BUILD_SHARED_LIBS
+OPTION( ASSIMP_BUILD_SHARED_LIBS
   "Build package with shared libraries."
   ON
 )
@@ -228,11 +228,11 @@ ENDIF ()
 
 
 IF (ASSIMP_BUILD_FRAMEWORK)
-  SET (BUILD_SHARED_LIBS ON)
+  SET (ASSIMP_BUILD_SHARED_LIBS ON)
   MESSAGE(STATUS "Framework bundle building enabled")
 ENDIF()
 
-IF(NOT BUILD_SHARED_LIBS)
+IF(NOT ASSIMP_BUILD_SHARED_LIBS)
   MESSAGE(STATUS "Shared libraries disabled")
   SET(LINK_SEARCH_START_STATIC TRUE)
   SET(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_FIND_LIBRARY_SUFFIXES})
@@ -453,6 +453,13 @@ IF (NOT TARGET uninstall AND ASSIMP_INSTALL)
   ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 ENDIF()
 
+# cmake configuration files
+if(${ASSIMP_BUILD_SHARED_LIBS})
+  set(BUILD_LIB_TYPE SHARED)
+else()
+  set(BUILD_LIB_TYPE STATIC)
+endif()
+
 IF( UNIX )
   # Use GNUInstallDirs for Unix predefined directories
   INCLUDE(GNUInstallDirs)
@@ -584,7 +591,7 @@ IF( NOT IOS )
     use_pkgconfig(UNZIP minizip)
   ENDIF()
 ELSE ()
-  IF( NOT BUILD_SHARED_LIBS )
+  IF( NOT ASSIMP_BUILD_SHARED_LIBS )
     IF( NOT ASSIMP_BUILD_MINIZIP )
       use_pkgconfig(UNZIP minizip)
     ENDIF()
